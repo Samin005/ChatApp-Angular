@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {HttpClientModule} from "@angular/common/http";
+import {RxStompService} from "./rx-stomp/rx-stomp.service";
+import {rxStompServiceFactory} from "./rx-stomp/rx-stomp-service-factory";
 
 @NgModule({
   declarations: [
@@ -10,9 +13,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: RxStompService, useFactory: rxStompServiceFactory}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
