@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {RxStompService} from "./rx-stomp/rx-stomp.service";
 import {rxStompServiceFactory} from "./rx-stomp/rx-stomp-service-factory";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {rxStompServiceFactory} from "./rx-stomp/rx-stomp-service-factory";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {provide: RxStompService, useFactory: rxStompServiceFactory}

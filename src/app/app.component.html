@@ -1,8 +1,16 @@
-<div>
-  <button (click)="onSendMessage()">Send</button>
-</div>
-<ng-container> Messages:
-  <div *ngFor="let message of messages">
-    <div>{{message}}</div>
+<div class="container">
+  <div class="m-auto row g-3 align-items-center">
+    <div class="col-10">
+      <input class="form-control" placeholder="Type..." [(ngModel)]="inputText">
+    </div>
+    <div class="col-2">
+      <button class="btn btn-primary" (click)="onSendMessage()">Send</button>
+    </div>
   </div>
-</ng-container>
+  <div class="text-center m-2">
+    <h3>Messages:</h3>
+    <div *ngFor="let message of messages">
+      <div>{{message}}</div>
+    </div>
+  </div>
+</div>

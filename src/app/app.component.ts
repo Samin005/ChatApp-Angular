@@ -11,6 +11,7 @@ import {environment} from "../environments/environment";
 export class AppComponent implements OnInit{
 
   messages: string[] = [];
+  inputText: string = "";
   constructor(private rxStompService: RxStompService) {
   }
 
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit{
   onSendMessage(): void {
     this.rxStompService.publish({
       destination: environment.sendEndPoint,
-      body: "YOLO"
+      body: this.inputText
     });
   }
 }
