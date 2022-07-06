@@ -24,6 +24,7 @@
     "jquery": "^3.6.0",
     "rxjs": "~7.5.0",
     "sockjs-client": "^1.6.1",
+    "sweetalert2": "^11.4.20",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
