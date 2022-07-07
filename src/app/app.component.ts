@@ -1,24 +1,35 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RxStompService} from "./rx-stomp/rx-stomp.service";
 import { Message } from '@stomp/stompjs';
 import {environment} from "../environments/environment";
 import {RxStompState} from "@stomp/rx-stomp";
 import Swal from 'sweetalert2';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
 
   messages: string[] = [];
   inputText: string = "";
+  chatSubscription: Subscription = new Subscription();
   constructor(private rxStompService: RxStompService) {
   }
 
-  // receive updates when available
   ngOnInit() {
+    this.setLoadingConditions();
+
+    // receive updates when available
+    this.chatSubscription = this.rxStompService.watch(environment.receiveEndPoint).subscribe((message: Message) => {
+      this.messages.push(message.body);
+    });
+  }
+
+  // Dynamically show loading when connection breaks
+  setLoadingConditions(): void {
     Swal.fire({
       title: 'Establishing Connection',
       allowOutsideClick: false,
@@ -33,9 +44,6 @@ export class AppComponent implements OnInit{
           timer: 1000,
           showConfirmButton: false
         }).finally(() => Swal.close());
-        this.rxStompService.watch(environment.receiveEndPoint).subscribe((message: Message) => {
-          this.messages.push(message.body);
-        });
       }
       else if(state == 3) {
         // connection closed
@@ -61,5 +69,10 @@ export class AppComponent implements OnInit{
       destination: environment.sendEndPoint,
       body: this.inputText
     });
+  }
+
+  // unsubscribe when component is destroyed
+  ngOnDestroy(): void {
+    this.chatSubscription.unsubscribe();
   }
 }
